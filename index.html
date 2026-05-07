@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İnternet'in Türkiye'ye Gelişi </title>
+    <!-- Modern ve premium fontlar -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Playfair+Display:ital,wght@0,600;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- Temel Değişkenler ve Siyah/Gold Premium Tema --- */
+        :root {
+            --bg-color: #050505; /* Çok koyu, zengin siyah */
+            --panel-bg: rgba(18, 18, 18, 0.85); /* Hafif saydam antrasit */
+            --border-color: rgba(212, 175, 55, 0.2); /* Yarı saydam altın */
+            --primary-gold: #d4af37; /* Klasik altın */
+            --light-gold: #f3e5ab; /* Açık altın/şampanya */
+            --dark-gold: #aa8c2c;
+            --accent-bronze: #b87333; /* 1993 dönemi vurgusu için bronz */
+            --text-main: #f5f5f5;
+            --text-muted: #9e9e9e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            /* Hafif altın rengi parıltılarla derinlik katan arka plan */
+            background-image: radial-gradient(circle at 15% 0%, rgba(212, 175, 55, 0.05), transparent 40%),
+                              radial-gradient(circle at 85% 100%, rgba(212, 175, 55, 0.03), transparent 40%);
+        }
+
+        /* --- Üst Başlık --- */
+        header {
+            padding: 30px 50px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-titles h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            background: linear-gradient(90deg, var(--light-gold), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        
+        .header-titles p { 
+            color: var(--primary-gold); 
+            font-family: 'Fira Code', monospace; 
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+
+        .team-info { text-align: right; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+        .team-info strong { color: var(--light-gold); font-weight: 500;}
+
+        /* --- Ana Düzen --- */
+        main {
+            display: flex;
+            flex: 1;
+            padding: 40px 50px;
+            gap: 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* --- Sol: Etkileşimli Zaman Tüneli (Timeline) --- */
+        .timeline-container {
+            flex: 0 0 280px;
+            position: relative;
+        }
+
+        .timeline-container h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 40px;
+            color: var(--light-gold);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 500;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 15px;
+            top: 60px;
+            bottom: 20px;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--primary-gold), transparent);
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .timeline-btn {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-bottom: 45px;
+            transition: all 0.4s ease;
+            width: 100%;
+            text-align: left;
+            padding: 5px 0;
+        }
+
+        /* Tünel Noktaları */
+        .timeline-btn::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--bg-color);
+            border: 2px solid var(--text-muted);
+            border-radius: 50%;
+            margin-right: 20px;
+            margin-left: 10px; /* Çizgiye hizalama */
+            transition: all 0.4s ease;
+        }
+
+        .timeline-btn:hover { color: var(--light-gold); transform: translateX(8px); }
+        .timeline-btn:hover::before { border-color: var(--primary-gold); background: var(--bg-color); }
+
+        .timeline-btn.active { color: var(--primary-gold); font-size: 1.1rem; font-weight: 500; }
+        .timeline-btn.active::before {
+            background: var(--primary-gold);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 20px var(--primary-gold);
+            transform: scale(1.2);
+        }
+
+        /* --- Sağ: İçerik Görüntüleme Paneli --- */
+        .content-panel {
+            flex: 1;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 50px;
+            backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(212, 175, 55, 0.05);
+        }
+
+        /* Etkileşimli Sekmeler (Tabs) */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 40px;
+            gap: 30px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 10px 0;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: 0.3s;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .tab-btn:hover { color: var(--light-gold); }
+        .tab-btn.active { color: var(--primary-gold); border-bottom-color: var(--primary-gold); }
+
+        /* Sekme İçerikleri */
+        .tab-content { display: none; animation: fadeUp 0.5s ease forwards; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dinamik Metin Alanları */
+        .year-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 600;
+            color: rgba(212, 175, 55, 0.04);
+            position: absolute;
+            top: 10px; right: 30px;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .story-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 25px; color: var(--light-gold); font-weight: 600; }
+        .story-text { font-size: 1.05rem; line-height: 1.8; color: #d1d5db; margin-bottom: 40px; font-weight: 300;}
+
+        /* İstatistik Kartları */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 20px; }
+        .stat-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+        .stat-card:hover { background: rgba(212, 175, 55, 0.05); }
+        .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; display: block; letter-spacing: 1px;}
+        .stat-value { font-size: 1.4rem; font-family: 'Inter', sans-serif; color: var(--primary-gold); font-weight: 500; }
+
+        /* --- İnteraktif Simülatör (Hız Testi) --- */
+        .simulator-box {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 40px;
+            margin-top: 20px;
+        }
+        
+        .simulator-box h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 30px; color: var(--light-gold); font-weight: 600;}
+
+        .track-container { margin-bottom: 30px; }
+        .track-header { display: flex; justify-content: space-between; margin-bottom: 12px; font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--text-muted);}
+        
+        .progress-bg {
+            width: 100%; height: 8px; background: #222; border-radius: 4px; overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
+        }
+        
+        .progress-fill { height: 100%; width: 0%; transition: width 0.1s linear; border-radius: 4px;}
+        #fill-93 { background: var(--accent-bronze); box-shadow: 0 0 10px var(--accent-bronze);}
+        #fill-modern { background: var(--primary-gold); box-shadow: 0 0 10px var(--primary-gold);}
+
+        .action-btn {
+            background: transparent;
+            border: 1px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 12px 35px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.4s;
+            display: block;
+            margin: 0 auto;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .action-btn:hover { background: var(--primary-gold); color: #000; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+        .action-btn:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; background: transparent; color: var(--primary-gold); }
+
+        /* Kaynakça / Doğrulama Tablosu */
+        .archive-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.95rem; }
+        .archive-table th, .archive-table td { padding: 20px 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .archive-table th { color: var(--light-gold); font-weight: 500; font-family: 'Inter', sans-serif; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;}
+        .archive-table tr:hover { background: rgba(212, 175, 55, 0.02); }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-titles">
+            <h1>İnternet Serüveni: Türkiye</h1>
+            <p>geçmişten günümüze internet'in Türkiye'ye gelişi </p>
+        </div>
+        <div class="team-info">
+            <strong>Okan Üniversitesi Final Projesi</strong><br>
+            Grup: Bil'T<br>
+            Ofis Uygulamaları / Mayıs 2026
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. ETKİLEŞİM ÖĞESİ: ZAMAN TÜNELİ (TIMELINE) -->
+        <aside class="timeline-container">
+            <h2>Kronoloji</h2>
+            <div class="timeline-line"></div>
+            <!-- Data nitelikleri üzerinden JavaScript ile içerik çekilecek -->
+            <button class="timeline-btn active" data-year="1986">1986-1992 Dönemi</button>
+            <button class="timeline-btn" data-year="1993">1993 Dijital Milat</button>
+            <button class="timeline-btn" data-year="1996">1996-1999 Genişleme</button>
+            <button class="timeline-btn" data-year="2001">2001 E-Ticaret Evresi</button>
+            <button class="timeline-btn" data-year="2026">2026 ve Ötesi</button>
+        </aside>
+
+        <section class="content-panel">
+            <div class="year-title" id="displayYear">1986</div>
+
+            <!-- 2. ETKİLEŞİM ÖĞESİ: SEKMELER (TABS) -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('hikaye')">Tarihsel İnceleme</button>
+                <button class="tab-btn" onclick="switchTab('teknik')">Teknik Simülasyon</button>
+                <button class="tab-btn" onclick="switchTab('dogrulama')">Arşiv Kontrolü</button>
+            </div>
+
+            <!-- Sekme 1: Hikaye (Dinamik olarak değişecek) -->
+            <div id="tab-hikaye" class="tab-content active">
+                <h2 class="story-title" id="storyTitle">Akademik Ağların Doğuşu</h2>
+                <p class="story-text" id="storyText">
+                    İnternetin resmi başlangıcından önce Türkiye yoğun bir altyapı hazırlığındaydı. 1986'da Ege ve Anadolu Üniversiteleri öncülüğünde TÜVAKA kurularak kurumlar arası veri iletişiminin temelleri atıldı. 1987'de ODTÜ'nün IBM 3090 Mainframe bilgisayarları ve 9600 bps hızındaki kiralık hatlarıyla gerçekleştirilen bağlantı, Türkiye'yi BITNET ve EARN ağına bağladı. Eş zamanlı olarak PTT tarafından X.25 paket anahtarlamalı TURPAK ağı devreye alındı ve BBS (Duyuru Tahtası) kültürü teknoloji meraklıları arasında yaygınlaştı.
+                </p>
+                
+                <div class="stats-grid" id="storyStats">
+                    <div class="stat-card">
+                        <span class="stat-label">Kurulan İlk Ağ Yapısı</span>
+                        <span class="stat-value">TÜVAKA & TURPAK</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Merkez Donanım</span>
+                        <span class="stat-value">IBM 3090 Mainframe</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sekme 2: Etkileşimli Simülatör -->
+            <div id="tab-teknik" class="tab-content">
+                <h2 class="story-title">Altyapı Deneyimi: 5 MB Veri Testi</h2>
+                <p class="story-text">Zaman tünelindeki döneme ait ağ kapasitesini somutlaştırmak için aşağıdaki simülasyonu başlatın. Bu test, "1993 Kiralık Hat (Bakır)" ile "Modern Fiber Optik" altyapısı arasındaki devasa veri aktarım uçurumunu görselleştirir.</p>
+                
+                <!-- 3. ETKİLEŞİM ÖĞESİ: HIZ SİMÜLATÖRÜ -->
+                <div class="simulator-box">
+                    <h3>Bağlantı Hızı Karşılaştırması</h3>
+                    
+                    <div class="track-container">
+                        <div class="track-header">
+                            <span>1993 (64 Kbps Leased Line)</span>
+                            <span id="time-93" style="color: var(--accent-bronze);">Bekleniyor...</span>
+                        </div>
+                        <div class="progress-bg"><div class="progress-fill" id="fill-93"></div></div>
+                    </div>
+
+                    <div class="track-container">
+                        <div class="track-header">
+                            <span>Günümüz (1 Gbps FTTH Fiber)</span>
+                            <span id="time-modern" style="color: var(--primary-gold);">Bekleniyor...</span>
+                        </div>
+                        <div class="progress-bg"><div class="progress-fill" id="fill-modern"></div></div>
+                    </div>
+
+                    <button class="action-btn" id="simBtn" onclick="runSimulation()">Simülasyonu Başlat</button>
+                </div>
+            </div>
+
+            <!-- Sekme 3: Arşiv Doğrulaması -->
+            <div id="tab-dogrulama" class="tab-content">
+                <h2 class="story-title">Eleştirel Değerlendirme & Kaynak Kontrolü</h2>
+                <p class="story-text">Bu proje kapsamında elde edilen yapay zeka verileri, salt doğru kabul edilmemiş; ODTÜ BİDB, ULAKBİM ve BTK arşivleriyle çapraz doğrulamaya tabi tutularak akademik bir filtrelemeden geçirilmiştir.</p>
+                
+                <table class="archive-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40%;">İncelenen Veri / Yaygın İddia</th>
+                            <th style="width: 60%;">Arşiv Gerçeği & Düzeltme Notu</th>
+                        </tr>
+                    </thead>
+                    <tbody id="verifyTableBody">
+                        <tr>
+                            <td style="color: var(--text-muted); font-style: italic;">"1987'de Türkiye internete bağlandı."</td>
+                            <td style="color: var(--light-gold);">BITNET ağı gerçek internet (TCP/IP) protokolünü kullanmıyordu. Yalnızca e-posta ve asenkron dosya aktarımı yapan kapalı devre bir ağdı. Gerçek bağlantı tanımı 1993'e aittir.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- VERİTABANI VE ETKİLEŞİM KODLARI -->
+    <script>
+        // --- 1. VERİTABANI (Genişletilmiş Tarihsel Veriler) ---
+        const historyData = {
+            '1986': {
+                title: "Akademik Ağların Doğuşu",
+                text: "İnternetin resmi başlangıcından önce Türkiye yoğun bir altyapı hazırlığındaydı. 1986'da Ege ve Anadolu Üniversiteleri öncülüğünde TÜVAKA kurularak kurumlar arası veri iletişiminin temelleri atıldı. 1987'de ODTÜ'nün IBM 3090 Mainframe bilgisayarları ve 9600 bps hızındaki kiralık hatlarıyla gerçekleştirilen bağlantı, Türkiye'yi BITNET ve EARN ağına bağladı. Eş zamanlı olarak PTT tarafından X.25 paket anahtarlamalı TURPAK ağı devreye alındı ve BBS (Duyuru Tahtası) kültürü teknoloji meraklıları arasında yaygınlaştı.",
+                stat1Label: "Kurulan İlk Ağ Yapısı", stat1Val: "TÜVAKA & TURPAK",
+                stat2Label: "Merkez Donanım", stat2Val: "IBM 3090 Mainframe",
+                verifyClaim: "1987'de Türkiye internete doğrudan bağlandı.",
+                verifyFact: "DÜZELTME: BITNET ağı gerçek internet (TCP/IP) değildi. Sadece e-posta ve asenkron dosya aktarımı yapan kapalı devre bir ağdı. İnternet bağlantısı terimi teknik olarak 1993 için geçerlidir."
+            },
+            '1993': {
+                title: "12 Nisan 1993: Dijital Milat",
+                text: "12 Nisan 1993'te, ODTÜ Bilgi İşlem Daire Başkanlığı'ndaki Cisco AGS+ yönlendiriciler üzerinden ilk TCP/IP paketleri Washington D.C.'deki NSFNet'e ulaştı. PTT'den tahsis edilen 64 Kbps hızındaki bu kiralık hat (leased line), Türkiye'nin gerçek anlamda internete bağlandığı an oldu. Donanım ve hat maliyetlerinin on binlerce doları bulduğu bu dönemde ağ üzerinde ilk olarak Telnet, FTP ve ilkel e-posta servisleri çalıştırıldı.",
+                stat1Label: "Bağlantı Hızı (Teorik)", stat1Val: "64 Kbps",
+                stat2Label: "Ağ Yönlendiricisi (Router)", stat2Val: "Cisco AGS+",
+                verifyClaim: "64 Kbps kapasiteli hat, saniyede 64 Kilobyte indirir.",
+                verifyFact: "DÜZELTME: Kbps (Kilobit) ile Byte birbirine karıştırılmamalıdır. ULAKBİM kayıtlarına göre, bakır hatlardaki elektriksel gürültü ve TCP/IP overhead'i nedeniyle hattın pratik hızı saniyede yalnızca 5-6 Kilobyte civarındaydı."
+            },
+            '1996': {
+                title: "Çift Omurga ve Vizyoner Lider",
+                text: "Veri yükünün artmasıyla internet omurgası ikiye ayrıldı. 1996'da TÜBİTAK bünyesinde kurulan ULAKBİM, üniversiteleri ATM ve Frame Relay teknolojileriyle bağlayan ULAKNET'i hayata geçirdi. Aynı yıl ticari tarafta TURNET projesi başlatılarak Ankara, İstanbul, İzmir merkezli düğümler (node) oluşturuldu. Doç. Dr. Mustafa Akgül'ün inisiyatifiyle başlatılan 'İnternet Haftası', teknolojinin KOBİ'lere ve Anadolu'ya inmesindeki en önemli sosyolojik hareketti.",
+                stat1Label: "Akademik Omurga Altyapısı", stat1Val: "ULAKNET (ATM Teknolojisi)",
+                stat2Label: "Sosyolojik İtici Güç", stat2Val: "Doç. Dr. Mustafa Akgül",
+                verifyClaim: "İnternetin yaygınlaşması tamamen telekomünikasyon şirketlerinin ticari bir başarısıdır.",
+                verifyFact: "DÜZELTME: Kaynaklar, internetin Anadolu'ya yayılmasındaki asıl büyük etkenin Doç. Dr. Mustafa Akgül'ün sivil inisiyatifleri (İnternet Konferansları) ve üniversitelerin bilgiye erişim talebi olduğunu göstermektedir."
+            },
+            '2001': {
+                title: "Sıfır Risk Modeli ve E-Ticaret",
+                text: "2000'lerin başında dial-up (çevirmeli ağ) modemlerden ADSL'e geçiş başlarken, e-ticaretin önündeki en büyük engel olan kredi kartı güvenliği ve teslimat sorunu çözüldü. GittiGidiyor'un öncülük ettiği 'Sıfır Risk' (emanetçi havuz) modeli sayesinde online güven inşa edildi. Aynı dönemde Türk bankacılık sektörünün online işlemlere yaptığı büyük yatırımlar, 2001 krizine rağmen dijital ekonominin sağlam temeller üzerine oturmasını sağladı.",
+                stat1Label: "E-Ticaret Güvenlik Yeniliği", stat1Val: "Emanetçi Havuz Sistemi",
+                stat2Label: "Erişim Teknolojisi", stat2Val: "Geniş Bant ADSL Geçişi",
+                verifyClaim: "E-ticaret siteleri 1995'te açıldığında hemen popüler oldu ve alışveriş patladı.",
+                verifyFact: "DÜZELTME: İlk siteler (isiticaret vb.) açılsa da, güvenli ödeme protokolleri ve lojistik entegrasyonu ancak 2000'lerin başında standartlaşabilmiş ve hacim bu dönemde artmıştır."
+            },
+            '2026': {
+                title: "Evrensel Dijitalleşme Zirvesi",
+                text: "Günümüzde Türkiye, nüfusunun yaklaşık %90'ının internete bağlandığı devasa bir dijital topluma evrildi. 5G testleri, ülke geneline yayılan yüz binlerce kilometrelik fiber optik (FTTH) ağlar ve e-Devlet kapısındaki binlerce hizmet ile dijital entegrasyon zirveye ulaştı. Yapay zeka veri merkezleri ve nesnelerin interneti (IoT) standart hale gelirken, .tr alan adı yönetimi BTK bünyesindeki TRABİS ile belgesiz ve rekabetçi bir modele geçiş yaptı.",
+                stat1Label: "Güncel Penetrasyon Oranı", stat1Val: "%88.8+",
+                stat2Label: "Alan Adı Yönetim Otoritesi", stat2Val: "TRABİS (BTK)",
+                verifyClaim: ".tr alan adları kuruluşundan bu yana devlet (BTK) tarafından yönetilmiştir.",
+                verifyFact: "DÜZELTME: .tr alan adları 1990 yılından 14 Eylül 2022 tarihine kadar kesintisiz olarak ODTÜ (Nic.tr) tarafından belgeye dayalı bir sistemle, özerk bir yapıda yönetilmiştir."
+            }
+        };
+
+        // --- 2. ETKİLEŞİM MANTIĞI: Zaman Tüneli Navigasyonu ---
+        const timelineBtns = document.querySelectorAll('.timeline-btn');
+        
+        timelineBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Aktif buton stilini değiştir
+                timelineBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const year = this.getAttribute('data-year');
+                loadContent(year);
+            });
+        });
+
+        function loadContent(year) {
+            const data = historyData[year];
+            
+            // Arka Plan Yıl Yazısı (İlk 4 karakteri alır)
+            document.getElementById('displayYear').innerText = year.substring(0,4); 
+            
+            // Sekme 1: Hikaye ve İstatistikler
+            document.getElementById('storyTitle').innerText = data.title;
+            document.getElementById('storyText').innerText = data.text;
+            
+            document.getElementById('storyStats').innerHTML = `
+                <div class="stat-card">
+                    <span class="stat-label">${data.stat1Label}</span>
+                    <span class="stat-value">${data.stat1Val}</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">${data.stat2Label}</span>
+                    <span class="stat-value">${data.stat2Val}</span>
+                </div>
+            `;
+
+            // Sekme 3: Doğrulama Tablosu
+            document.getElementById('verifyTableBody').innerHTML = `
+                <tr>
+                    <td style="color: var(--text-muted); font-style: italic;">"${data.verifyClaim}"</td>
+                    <td style="color: var(--light-gold); line-height: 1.6;">${data.verifyFact}</td>
+                </tr>
+            `;
+
+            // Simülatörü Sıfırla
+            resetSimulation();
+        }
+
+        // --- 3. ETKİLEŞİM MANTIĞI: Sekme (Tab) Geçişleri ---
+        function switchTab(tabId) {
+            // Butonları ayarla
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // İçerikleri ayarla
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        // --- 4. ETKİLEŞİM MANTIĞI: Hız Simülatörü ---
+        let simInterval;
+
+        function resetSimulation() {
+            clearInterval(simInterval);
+            document.getElementById('fill-93').style.width = '0%';
+            document.getElementById('fill-modern').style.width = '0%';
+            document.getElementById('time-93').innerText = 'Bekleniyor...';
+            document.getElementById('time-modern').innerText = 'Bekleniyor...';
+            document.getElementById('simBtn').disabled = false;
+            document.getElementById('simBtn').innerText = 'Simülasyonu Başlat';
+        }
+
+        function runSimulation() {
+            const btn = document.getElementById('simBtn');
+            const fill93 = document.getElementById('fill-93');
+            const fillModern = document.getElementById('fill-modern');
+            const time93 = document.getElementById('time-93');
+            const timeModern = document.getElementById('time-modern');
+
+            btn.disabled = true;
+            btn.innerText = 'TEST EDİLİYOR...';
+            
+            // Modern Fiber: Anında tamamlansın
+            setTimeout(() => {
+                fillModern.style.width = '100%';
+                timeModern.innerText = '0.04 saniye';
+            }, 100);
+
+            // 1993 64 Kbps: Yavaş ve zorlu ilerleme efekti
+            let progress = 0;
+            let startTime = Date.now();
+            
+            simInterval = setInterval(() => {
+                progress += 0.35; // Görsel olarak bekletmek ama sıkıcı yapmamak için oranlandı
+                if(progress >= 100) {
+                    progress = 100;
+                    clearInterval(simInterval);
+                    btn.disabled = false;
+                    btn.innerText = 'Yeniden Test Et';
+                    time93.innerText = 'Gerçekte ~600 saniye sürerdi!';
+                } else {
+                    let elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+                    time93.innerText = elapsed + ' sn (İndiriliyor...)';
+                }
+                fill93.style.width = progress + '%';
+            }, 50);
+        }
+    </script>
+</body>
+</html>
